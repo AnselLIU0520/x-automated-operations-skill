@@ -6,47 +6,99 @@
 ![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-**AI大模型领域自动化运营工具 - 每日自动执行搜索、互动、发布、推送**
+**Automated X/Twitter Operations for AI & Tech Domain - Search, Engage, Create, Report**
 
 </div>
 
-## 📋 功能概述
+## 🎯 What This Skill Does
 
-本技能用于自动化运营Twitter/X平台，特别针对AI大模型、科技投资领域，每日自动执行以下任务：
+Tired of manually tracking AI developments on X? This skill automates your daily X operations, specifically designed for the AI/ML, tech investment, and startup ecosystem.
 
-- 🔍 **智能搜索** - 搜索AI领域三类目标账号的最新推文
-- 🤝 **互动运营** - 自动点赞、转发、评论相关推文（各5条）
-- ✍️ **内容创作** - 发布1条原创推文（以问句结尾）
-- 📊 **日报推送** - 结构化日报推送到飞书
-- 🔒 **安全可靠** - 完善的错误处理和频率控制
+### Real-World Scenarios
 
-## 🚀 快速开始
+#### 🏢 **For AI Startup Founders**
+*"I need to stay on top of what Sam Altman, Andrej Karpathy, and other AI leaders are talking about, but I don't have time to scroll through X all day."*
 
-### 1. 环境要求
+**→ This skill automatically:**
+- Searches for the latest tweets from AI leaders you care about
+- Engages with relevant content (likes, retweets)
+- Posts thoughtful commentary based on trending topics
+- Sends you a digest on Feishu so you're always informed
 
+#### 📈 **For Tech Investors**
+*"I need to monitor AI investment trends and identify emerging opportunities without manual tracking."*
+
+**→ This skill automatically:**
+- Tracks tweets from top VCs (a16z, Sequoia, Y Combinator)
+- Analyzes sentiment around AI funding announcements  
+- Identifies trending technologies and startups
+- Provides daily intelligence reports
+
+#### 🎓 **For AI Researchers & Engineers**
+*"I want to participate in technical discussions but struggle to find the right conversations."*
+
+**→ This skill automatically:**
+- Finds technical discussions about LLMs, transformers, new architectures
+- Engages with peer researchers
+- Shares your insights at optimal times
+- Builds your professional presence
+
+## ✨ Core Features
+
+### 🔍 **Intelligent Discovery**
+- **Targeted Search**: Focuses on three key account types:
+  - **AI Companies**: OpenAI, Anthropic, Google AI, Microsoft
+  - **Tech Influencers**: Sam Altman, Andrej Karpathy, Yann LeCun, Andrew Ng
+  - **Investors & Leaders**: Garry Tan, Paul Graham, Naval Ravikant
+- **Smart Filtering**: Excludes spam, retweets, and irrelevant content
+- **Trend Analysis**: Identifies emerging topics from search results
+
+### 🤝 **Strategic Engagement**
+- **Likes**: 5 high-quality tweets daily
+- **Retweets**: 5 valuable insights to share  
+- **Comments**: Intelligent responses (with graceful degradation)
+- **Original Content**: 1 thoughtful tweet ending with a question
+
+### 📊 **Automated Reporting**
+- **Feishu Integration**: Structured daily reports
+- **Performance Metrics**: Success rates, engagement stats
+- **Trend Insights**: What's hot in AI today
+- **Actionable Intelligence**: Not just data, but insights
+
+### 🔒 **Enterprise-Grade Reliability**
+- **Error Handling**: Automatic retries and fallbacks
+- **Rate Limit Management**: Intelligent pacing to avoid blocks
+- **Security First**: No hardcoded credentials, environment variables only
+- **Permission Diagnostics**: Tools to fix common API permission issues
+
+## 🚀 Quick Start
+
+### Prerequisites
 - Node.js 16+ 
-- OpenClaw 环境
-- X开发者账号（需要API权限）
+- OpenClaw environment
+- X Developer Account with API access
+- (Optional) Feishu account for daily reports
 
-### 2. 安装依赖
+### Installation
 
 ```bash
-cd skills/x-automated-operations-skill
+# Clone the repository
+git clone https://github.com/AnselLIU0520/x-automated-operations-skill
+cd x-automated-operations-skill
+
+# Install dependencies
 npm install
-```
 
-### 3. 配置环境变量
-
-复制`.env.example`为`.env`并填入你的凭证：
-
-```bash
+# Configure environment variables
 cp .env.example .env
 ```
 
-编辑`.env`文件，填入以下凭证：
+### Configuration
+
+Edit `.env` file with your credentials:
 
 ```env
-# X API 凭证（从X开发者后台获取）
+# X API Credentials (get from https://developer.twitter.com)
 X_BEARER_TOKEN=your_bearer_token_here
 X_CONSUMER_KEY=your_consumer_key_here
 X_CONSUMER_SECRET=your_consumer_secret_here
@@ -54,271 +106,267 @@ X_ACCESS_TOKEN=your_access_token_here
 X_ACCESS_TOKEN_SECRET=your_access_token_secret_here
 X_USER_ID=your_user_id_here
 
-# 可选配置
-HTTPS_PROXY=http://127.0.0.1:17890  # 代理设置（如果需要）
-FEISHU_WEBHOOK=your_webhook_url      # 飞书Webhook（用于推送日报）
+# Optional: Proxy settings (if needed)
+# HTTPS_PROXY=http://127.0.0.1:17890
 
-# 运营配置
-OPERATION_DELAY=2000    # 操作间隔（毫秒）
-MAX_RETRIES=3           # 最大重试次数
-VERBOSE_LOGGING=true    # 详细日志
+# Optional: Feishu Webhook for daily reports
+# FEISHU_WEBHOOK=https://www.feishu.cn/flow/api/trigger-webhook/your_id_here
 ```
 
-## 🔑 获取X API权限（关键步骤）
+### Getting X API Permissions (Critical!)
 
-### 步骤1：申请X开发者账号
+90% of issues come from incorrect permissions. Follow these steps:
 
-1. 访问 [X开发者平台](https://developer.twitter.com)
-2. 注册开发者账号（可能需要验证）
-3. 创建新应用（Application）
+1. **Apply for X Developer Account** at https://developer.twitter.com
+2. **Create a new Application**
+3. **Set App Permissions to "Read and Write"** (not "Read only")
+4. **Generate API Keys and Tokens**
+5. **Use our OAuth tools if needed**:
+   ```bash
+   # Generate authorization URL
+   node scripts/generate_oauth_url.js
+   
+   # Authorize, get PIN, then:
+   node scripts/get_new_token.js <PIN_CODE>
+   ```
 
-### 步骤2：获取API凭证
-
-创建应用后，在"Keys and tokens"标签页获取：
-
-- **API Key and Secret** → `X_CONSUMER_KEY` 和 `X_CONSUMER_SECRET`
-- **Bearer Token** → `X_BEARER_TOKEN` （需要点击"Generate"生成）
-
-### 步骤3：设置应用权限（重要！）
-
-**必须设置为"Read and Write"权限**：
-
-1. 进入应用设置
-2. 找到"App permissions"部分
-3. 选择"Read and Write"（不能是"Read only"）
-4. 保存更改
-
-### 步骤4：获取Access Token（OAuth 1.0a）
-
-1. 在"Keys and tokens"页面，找到"Authentication Tokens"部分
-2. 点击"Generate"生成Access Token和Secret
-3. 或者使用OAuth流程授权（推荐）
-
-### 步骤5：OAuth授权流程（推荐）
-
-使用本技能提供的OAuth工具：
+### Testing Your Setup
 
 ```bash
-# 1. 生成授权URL
-node scripts/generate_oauth_url.js
-
-# 2. 用浏览器打开生成的URL，授权应用
-# 3. 获取PIN码
-# 4. 使用PIN码获取Access Token
-node scripts/get_new_token.js <PIN_CODE>
-```
-
-### 权限验证
-
-运行权限测试脚本确保所有权限正常：
-
-```bash
+# Test permissions and connectivity
 node scripts/test_permissions.js
-```
 
-✅ **成功标志**：所有测试通过，特别是"写入权限"测试
-
-## 📖 使用指南
-
-### 日常运营
-
-执行完整的日常运营任务：
-
-```bash
-# 预览模式（不实际执行）
+# Dry run (preview without posting)
 node scripts/daily_operations.js --dry-run
 
-# 正式执行
+# View what will happen:
+# - Which tweets will be engaged with
+# - What original content will be posted
+# - What Feishu report will look like
+```
+
+### Daily Execution
+
+```bash
+# Run the full daily operations
 node scripts/daily_operations.js
 
-# 调试模式（详细日志）
-node scripts/daily_operations.js --debug
+# Or schedule it (Linux/macOS crontab)
+0 9,17 * * * cd /path/to/skill && node scripts/daily_operations.js >> logs/cron.log 2>&1
 ```
 
-### 自定义配置
+## 💬 Natural Language Commands for OpenClaw
 
-编辑配置文件调整运营策略：
+Once installed, you can use these natural language commands:
 
-- `config/targets.js` - 目标账号配置
-- `config/keywords.js` - 搜索关键词
-- `config/templates.js` - 内容模板
+### Daily Operations
+- **"Run my daily X operations"**
+- **"Check what's trending in AI today"**
+- **"Engage with AI leaders on X"**
+- **"Post my daily AI insights"**
+- **"Send me the X intelligence report"**
 
-### 定时执行
+### Testing & Diagnostics
+- **"Test my X API permissions"**
+- **"Check if my X credentials work"**
+- **"Diagnose why comments aren't working"**
+- **"Test the Feishu integration"**
 
-建议每日执行1-2次，避免频率限制：
+### Configuration & Setup
+- **"Help me set up X API permissions"**
+- **"Generate OAuth authorization URL"**
+- **"Update my X access token"**
+- **"Configure my target accounts"**
 
-```bash
-# 使用cron定时执行（Linux/macOS）
-0 9,17 * * * cd /path/to/skill && node scripts/daily_operations.js
+### Content & Strategy
+- **"What topics are trending in AI?"**
+- **"Who should I follow in AI/ML?"**
+- **"Suggest some engagement strategies"**
+- **"Review my daily operation results"**
 
-# 使用Windows任务计划
-# 创建每日9:00和17:00执行的任务
-```
-
-## 🔧 功能模块
-
-### 1. 智能搜索 (`lib/client.js`)
-- 支持X API v2搜索
-- 智能评分和排序
-- 避免重复和垃圾内容
-
-### 2. 互动运营 (`scripts/daily_operations.js`)
-- 点赞、转发、评论
-- 智能间隔控制
-- 错误重试机制
-
-### 3. 内容生成 (`config/templates.js`)
-- 智能话题分析
-- 原创推文生成
-- 评论模板库
-
-### 4. 飞书集成
-- 结构化日报
-- 运营数据统计
-- 执行结果通知
-
-### 5. 工具脚本
-- `scripts/test_permissions.js` - 权限诊断
-- `scripts/test_comment.js` - 评论功能测试
-- `scripts/test_basic.js` - 基础功能测试
-
-## 🛠️ 故障排除
-
-### 常见问题
-
-#### Q1: 所有写入操作返回401错误
-**原因**: Access Token没有写入权限
-**解决**：
-1. 确认应用权限为"Read and Write"
-2. 重新获取Access Token
-3. 运行`node scripts/test_permissions.js`验证
-
-#### Q2: 评论功能失败
-**原因**: X API对评论有额外限制
-**解决**：
-1. 运行`node scripts/test_comment.js`诊断
-2. 确保推文允许回复
-3. 优化评论内容（避免触发风控）
-
-#### Q3: 频率限制（429错误）
-**原因**: API调用太频繁
-**解决**：
-1. 增加`OPERATION_DELAY`值
-2. 减少单次操作数量
-3. 使用代理IP（可选）
-
-#### Q4: 代理连接问题
-**原因**: 网络环境限制
-**解决**：
-1. 配置正确的`HTTPS_PROXY`
-2. 测试网络连接
-3. 考虑使用其他代理方案
-
-### 调试模式
-
-启用详细日志：
-
-```bash
-# 设置环境变量
-export VERBOSE_LOGGING=true
-
-# 或直接运行
-node scripts/daily_operations.js --debug
-```
-
-## 📁 项目结构
+## 🏗️ Project Structure
 
 ```
 x-automated-operations-skill/
-├── README.md                 # 本文档
-├── SKILL.md                  # OpenClaw技能定义
-├── package.json              # 依赖配置
-├── .env.example              # 环境变量模板
-├── .gitignore                # Git忽略配置
+├── README.md                 # This document
+├── README_CN.md             # Chinese documentation
+├── SKILL.md                 # OpenClaw skill definition
+├── package.json             # Dependencies
+├── .env.example             # Environment template
+├── .gitignore              # Git ignore rules
 ├── lib/
-│   └── client.js             # X API客户端
+│   └── client.js           # Enhanced X API client
 ├── config/
-│   ├── targets.js            # 目标账号配置
-│   ├── keywords.js           # 搜索关键词配置
-│   └── templates.js          # 内容模板配置
+│   ├── targets.js          # Target account configuration
+│   ├── keywords.js         # Search keywords
+│   └── templates.js        # Content templates
 ├── scripts/
-│   ├── daily_operations.js   # 主运营脚本
-│   ├── test_permissions.js   # 权限测试
-│   ├── test_comment.js       # 评论测试
-│   ├── test_basic.js         # 基础测试
-│   ├── generate_oauth_url.js # OAuth授权URL生成
-│   └── get_new_token.js      # Access Token获取
-├── references/               # 参考文档
-└── logs/                     # 执行日志（自动生成）
+│   ├── daily_operations.js # Main operations script
+│   ├── test_permissions.js # Permission diagnostics
+│   ├── generate_oauth_url.js # OAuth authorization
+│   ├── get_new_token.js    # Access token exchange
+│   └── quick_security_check.js # Security audit
+├── references/             # Guides and documentation
+└── logs/                   # Execution logs (auto-generated)
 ```
 
-## ⚠️ 注意事项
+## ⚙️ Customization
 
-### 安全建议
-1. **不要提交`.env`文件**到版本控制
-2. 定期轮换API凭证
-3. 使用环境变量存储敏感信息
-4. 监控API使用量
+### Target Accounts
+Edit `config/targets.js` to customize who you track:
 
-### 合规使用
-1. 遵守X API使用条款
-2. 避免垃圾信息行为
-3. 尊重用户隐私
-4. 控制操作频率
+```javascript
+module.exports = {
+  // AI Company Official Accounts
+  official: ['OpenAI', 'AnthropicAI', 'GoogleAI', 'Microsoft'],
+  
+  // Tech Influencers & Researchers
+  kols: ['sama', 'karpathy', 'ylecun', 'AndrewYNg'],
+  
+  // Investors & Industry Leaders
+  leaders: ['gdb', 'paulg', 'naval', 'cdixon']
+};
+```
 
-### 最佳实践
-1. 每日执行不超过2次
-2. 互动目标控制在5条以内
-3. 内容原创，避免抄袭
-4. 定期更新配置和模板
+### Search Keywords
+Edit `config/keywords.js` to customize search terms:
 
-## 📈 运营效果
+```javascript
+module.exports = [
+  // English Keywords
+  'AI', 'artificial intelligence', 'machine learning',
+  'large language model', 'LLM', 'GPT', 'AGI',
+  
+  // Chinese Keywords (for bilingual tracking)
+  'AI大模型', '人工智能', '机器学习',
+  '大语言模型', 'AGI', 'AIGC'
+];
+```
 
-### 预期成果
-- 每日与AI领域关键账号互动
-- 建立专业行业形象
-- 获取领域最新动态
-- 自动化运营节省时间
+### Content Templates
+Edit `config/templates.js` to customize your voice:
 
-### 数据指标
-- 互动成功率 > 80%
-- 原创推文阅读量提升
-- 粉丝增长（长期）
-- 行业影响力建立
+```javascript
+module.exports = {
+  // Original tweet templates (always end with a question)
+  originalTweets: [
+    "Noticing {trend} across multiple sources today. What's the most underrated implication for {sector}?",
+    "{insight} suggests we're at an inflection point. How should {audience} prepare for what's next?"
+  ],
+  
+  // Comment templates (engaging, not spammy)
+  commentTemplates: [
+    "Interesting perspective. How do you see this impacting adoption timelines?",
+    "This aligns with what we're seeing. The key question is scalability."
+  ]
+};
+```
 
-## 🔄 更新日志
+## 🛠️ Troubleshooting
 
-### v2.0 (2026-03-25)
-- 重构为模块化架构
-- 增强错误处理和重试机制
-- 添加完整权限诊断工具
-- 优化内容生成模板
-- 完善飞书日报推送
+### Common Issues & Solutions
 
-### v1.0 (初始版本)
-- 基础搜索和互动功能
-- 简单的原创内容生成
-- 基础飞书集成
+#### ❌ "All write operations return 401 error"
+**Problem**: Access token doesn't have write permissions.
 
-## 📞 支持与贡献
+**Solution**:
+```bash
+# 1. Run diagnostics
+node scripts/test_permissions.js
 
-### 问题反馈
-遇到问题请：
-1. 查看"故障排除"章节
-2. 运行测试脚本诊断
-3. 提交Issue（附详细日志）
+# 2. Check X Developer Portal
+#    - Go to https://developer.twitter.com
+#    - Find your app
+#    - Ensure "App permissions" is "Read and Write"
 
-### 功能建议
-欢迎提出改进建议：
-- 更多互动策略
-- 更好的内容模板
-- 其他平台集成
+# 3. If still "Read only", change to "Read and Write"
+# 4. Regenerate access tokens
+# 5. Update .env file
+```
 
-### 安全报告
-发现安全问题请私密报告。
+#### ❌ "Comments fail but likes/retweets work"
+**Problem**: X has additional restrictions on comments.
+
+**Solution**:
+- The skill automatically degrades (failed comments become likes+retweets)
+- Ensure you're only engaging with accounts that allow replies
+- Avoid commenting on protected accounts
+- Keep comments short and meaningful
+
+#### ❌ "Rate limit exceeded (429 error)"
+**Problem**: Too many API calls too quickly.
+
+**Solution**:
+- Increase `OPERATION_DELAY` in `.env` file
+- Reduce number of daily interactions
+- The skill already includes intelligent pacing
+
+#### ❌ "Network/proxy connection issues"
+**Problem**: Can't connect to X API.
+
+**Solution**:
+```env
+# In .env file, configure proxy if needed:
+HTTPS_PROXY=http://127.0.0.1:17890
+```
+
+## 📈 Best Practices
+
+### Engagement Strategy
+1. **Quality Over Quantity**: Better to engage meaningfully with 5 tweets than superficially with 50
+2. **Consistency**: Daily engagement builds presence better than sporadic bursts
+3. **Value Add**: Comments should provide insight, not just "nice post"
+4. **Original Content**: Share unique perspectives, not just retweets
+
+### Technical Recommendations
+1. **Environment Variables**: Never commit `.env` to version control
+2. **Regular Updates**: Check for X API changes quarterly
+3. **Monitoring**: Review logs weekly to catch issues early
+4. **Backup Configuration**: Keep backups of your custom configs
+
+### Compliance & Ethics
+1. **Follow X Rules**: Respect rate limits and terms of service
+2. **Authentic Engagement**: Don't spam or use deceptive practices
+3. **Transparency**: Be clear about automated engagement if asked
+4. **Value Focus**: Aim to contribute to conversations, not just extract value
+
+## 🔄 Version History
+
+### v2.0 (2026-03-25) - Major Rewrite
+- **Modular Architecture**: Separated lib/, config/, scripts/, references/
+- **Enhanced Error Handling**: Retry logic, graceful degradation
+- **Permission Diagnostics**: Complete toolset for API permission issues
+- **OAuth 1.0a Tools**: generate_oauth_url.js and get_new_token.js
+- **Comprehensive Documentation**: English and Chinese README
+- **Security First**: No hardcoded credentials, security audit tools
+
+### v1.x (Previous Version)
+- Basic search and engagement functionality
+- Simple error handling
+- Limited documentation
+
+## 🤝 Contributing
+
+Found a bug? Have a feature request?
+
+1. **Check Existing Issues** on GitHub
+2. **Create New Issue** with detailed description
+3. **Include Logs**: Run with `--debug` flag and include output
+4. **Be Specific**: What happened vs what you expected
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built for the OpenClaw ecosystem
+- Designed specifically for AI/tech domain operators
+- Tested with real-world X API constraints
+- Inspired by the need for better intelligence tools in fast-moving industries
 
 ---
 
-**免责声明**: 本工具仅供学习和合规使用，使用者需遵守X平台规则和相关法律法规。不当使用可能导致账号受限。
+**Ready to automate your X intelligence?** Start with `node scripts/test_permissions.js` to ensure everything's working, then schedule your first daily run!
 
-**License**: MIT
+**Questions?** Check the [Chinese documentation](README_CN.md) or create an issue on GitHub.
